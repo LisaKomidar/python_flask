@@ -1,6 +1,19 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.6-alpine3.7
-RUN apk --update add bash nano
-ENV STATIC_URL /html/static
-ENV STATIC_PATH /var/www/html/app/static
-COPY ./requirements.txt /var/www/html/requirements.txt
-RUN pip install -r /var/www/html/requirements.txt
+FROM ubuntu:16.04
+
+MAINTANER Your Name "lisa.komidar@computacenter.com
+
+RUN apt-get update -y && \
+    apt-get install -y python-pip python-dev
+
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /var/www/app/requirements.txt
+
+WORKDIR /html
+
+RUN pip install -r requirements.txt
+
+COPY . /app
+
+ENTRYPOINT [ "python" ]
+
+CMD [ "main.py" ]
