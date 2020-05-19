@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTANER Your Name "lisa.komidar@computacenter.com
+MAINTANER Lisa Komidar "lisa.komidar@computacenter.com"
 
 RUN apt-get update -y && \
     apt-get install -y python-pip python-dev
