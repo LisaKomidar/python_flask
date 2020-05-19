@@ -1,16 +1,16 @@
 FROM ubuntu:16.04
+LABEL maintainer="Lisa Komidar <lisa.komidar@computacenter.com>"
 
-RUN apt-get update && apt-get install -y --no-install-recommends python3  python-pip python-dev \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
- 
-copy . /www
+RUN apt-get update
+RUN apt-get install -y python3 python3-dev python3-pip nginx
+RUN pip3 install uwsgi
 
-WORKDIR /app
+COPY ./ ./app
+WORKDIR ./app
 
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
+COPY ./nginx.conf /etc/nginx/sites-enabled/default
+
+CMD service nginx start && uwsgi -s /tmp/uwsgi.sock --chmod-socket=666 --manage-script-name --mount /=app:app
 
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "main.py" ]
