@@ -9,7 +9,8 @@ WORKDIR /install
 COPY requirements.txt /requirements.txt
 RUN pip install --install-option="--prefix=/install" -r /requirements.txt
 
-FROM baseCOPY --from=builder /install /usr/local
+FROM base
+COPY --from=builder /install /usr/local
 COPY src /app
 
 WORKDIR /app
