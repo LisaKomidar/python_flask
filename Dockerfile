@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3  python
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt /var/www/app/requirements.txt
 
-WORKDIR /html
+WORKDIR /app
 
 RUN pip install -r requirements.txt
 
