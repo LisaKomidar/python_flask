@@ -1,7 +1,10 @@
 from flask import Flask
 app = Flask(__name__)
-from templates import views
-@app.route("/")
+from flask import render_template
+
+@app.route('/')
+@app.route('/index')
+
 def hello():
     return "Hello, I love Digital Ocean!"
 if __name__ == "__main__":
