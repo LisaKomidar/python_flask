@@ -1,14 +1,18 @@
-FROM python:3.7-alpine as base
+FROM ubuntu:16.04
 
-
+RUN apt-get update && apt-get install -y --no-install-recommends python3  python-pip python-dev \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+ 
 # We copy just the requirements.txt first to leverage Docker cache
-COPY ./requirements.txt /var/www/app/requirements.txt
+COPY . /
+
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
+RUN pip install -r /app/requirements.txt
 
-COPY . /app
+
 
 ENTRYPOINT [ "python" ]
 
