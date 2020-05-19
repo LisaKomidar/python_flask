@@ -1,18 +1,15 @@
-FROM python:3.7-alpine as base
+FROM FROM python:3.7-alpine
 
-FROM base as builder
 
-RUN mkdir /install
-
-WORKDIR /install
-
-COPY requirements.txt /requirements.txt
-RUN pip install --install-option="--prefix=/install" -r /requirements.txt
-
-FROM base
-COPY --from=builder /install /usr/local
-COPY src /app
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /var/www/app/requirements.txt
 
 WORKDIR /app
+
+RUN pip install -r requirements.txt
+
+COPY . /app
+
+ENTRYPOINT [ "python" ]
 
 CMD [ "main.py" ]
